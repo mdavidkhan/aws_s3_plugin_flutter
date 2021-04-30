@@ -1,3 +1,8 @@
+## [0.1.2+4] - 2021-04-30
+
+* Added Private files uploading and downloading through pre-signed URL facility .
+
+
 ### 0.1.1+hotfix.3
 
 - Accuracy of the progrecess percentage improved.
