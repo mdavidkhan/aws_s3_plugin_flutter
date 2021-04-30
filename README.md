@@ -1,4 +1,4 @@
-# aws_s3
+# aws_s3_plugin_flutter
 
 This plugin developed to make it easy to upload  file(s) to AWS S3  Private buckets without
 writing Android, and IOS code separately using method channel.
@@ -9,10 +9,10 @@ AWS official Android native and IOS native AWS plugins (So nothing to be worried
 
 Contributors are highly welcome.
 
-To use this package, you have to create a instance of `AwsS3` with parameters like below code snippet:
+To use this package, you have to create a instance of `AwsS3PluginFlutter` with parameters like below code snippet:
 
 ```
-  AwsS3 awsS3 = AwsS3(
+  AwsS3PluginFlutter awsS3 = AwsS3PluginFlutter(
   awsFolderPath: "your aws folder path",
   file: "file is of type File",
   fileNameWithExt: "file name",
@@ -23,7 +23,7 @@ To use this package, you have to create a instance of `AwsS3` with parameters li
   
 ```
 
-`AwsS3` class, parameters:
+`AwsS3PluginFlutter` class, parameters:
 
 ```
   final File file;
@@ -31,7 +31,7 @@ To use this package, you have to create a instance of `AwsS3` with parameters li
   final String awsFolderPath;
   final String bucketName;
 
-  AwsS3 awsS3 = AwsS3(
+  AwsS3PluginFlutter awsS3 = AwsS3PluginFlutter(
   awsFolderPath: awsFolderPath,
   file: file,
   fileNameWithExt: fileNameWithExt,
@@ -40,7 +40,7 @@ To use this package, you have to create a instance of `AwsS3` with parameters li
   AWSSecret: Constants.AWSSecretKey,
   bucketName: bucketName);
 ```
-`AWSS3` generate presigned URL 
+`AwsS3PluginFlutter` generate presigned URL
 
 ```
 
@@ -49,7 +49,7 @@ final String awsFolderPath;
 final String bucketName;
 
 
-  AwsS3 awsS3 = AwsS3(
+  AwsS3PluginFlutter awsS3 = AwsS3PluginFlutter(
     awsFolderPath: awsFolderPath,
     fileNameWithExt: fileNameWithExt,
     region: Regions.EU_WEST_2,
