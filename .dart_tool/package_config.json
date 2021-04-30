@@ -128,13 +128,13 @@
       "languageVersion": "2.10"
     },
     {
-      "name": "aws_s3",
+      "name": "aws_s3_plugin_flutter",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-04-30T18:16:27.592602Z",
+  "generated": "2021-04-30T20:35:42.960752Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

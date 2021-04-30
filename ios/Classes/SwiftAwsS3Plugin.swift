@@ -5,8 +5,8 @@ import AWSS3
 import Foundation
 
 enum ChannelName {
-    static let awsS3 = "com.blasanka.s3Flutter/aws_s3"
-    static let uploadingSatus = "com.blasanka.s3Flutter/uploading_status"
+    static let awsS3 = "aws_s3_plugin_flutter"
+    static let uploadingSatus = "uploading_status"
 }
 
 public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {

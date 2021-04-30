@@ -1,4 +1,4 @@
-group 'com.blasanka.s3flutter.aws_s3'
+group 'org.deetechpk.aws_s3_plugin_flutter'
 version '1.0'
 
 buildscript {
@@ -27,14 +27,11 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         disable 'InvalidPackage'
     }
-
 }
-
 dependencies {
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.6'
     implementation 'com.amazonaws:aws-android-sdk-s3:2.16.6'
@@ -44,8 +41,5 @@ dependencies {
     // Sign in UI Library
     implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.6.10'
     implementation 'com.amazonaws:aws-android-sdk-core:2.16.6'
-//    implementation ('com.amazonaws:aws-java-sdk:1.11.404'){
-//        exclude group: 'com.amazonaws', module: 'aws-java-sdk-core'
-//    }
 
 }

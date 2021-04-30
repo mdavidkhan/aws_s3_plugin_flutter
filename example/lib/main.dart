@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:aws_s3/aws_s3.dart';
+import 'package:aws_s3_plugin_flutter/aws_s3_plugin_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -52,7 +52,7 @@ class CreateMessageState extends State<CreateMessage> {
       }
       return urlString; //return the URL back if don't find any signs of AWS
     }
-    AwsS3 awsS3 = AwsS3(
+    AwsS3PluginFlutter awsS3 = AwsS3PluginFlutter(
       awsFolderPath: '',
       fileNameWithExt: 'File Name.jpg',
       region: Regions.EU_WEST_2,
@@ -281,7 +281,7 @@ class CreateMessageState extends State<CreateMessage> {
       String fileName =
           "$number$extension\_${DateTime.now().millisecondsSinceEpoch}.$extension";
 
-      AwsS3 awsS3 = AwsS3(
+      AwsS3PluginFlutter awsS3 = AwsS3PluginFlutter(
           awsFolderPath: awsFolderPath,
           file: selectedFile,
           fileNameWithExt: fileName,
@@ -306,7 +306,7 @@ class CreateMessageState extends State<CreateMessage> {
     return result;
   }
 
-  Future displayUploadDialog(AwsS3 awsS3) {
+  Future displayUploadDialog(AwsS3PluginFlutter awsS3) {
     return showDialog(
       context: context,
       barrierDismissible: false,

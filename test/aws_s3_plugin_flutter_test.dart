@@ -1,9 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:aws_s3/aws_s3.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('aws_s3');
+  const MethodChannel channel = MethodChannel('aws_s3_plugin_flutter');
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -18,6 +17,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-//    expect(await AwsS3().uploadFile, '42');
+    // expect(await AwsS3PluginFlutter.platformVersion, '42');
   });
 }

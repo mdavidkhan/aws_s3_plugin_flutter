@@ -1,12 +1,13 @@
-name: aws_s3
+name: aws_s3_plugin_flutter
 description: This package for uploading private file(s) to AWS S3 with upload percentage. also it is able to access the private files through presigned URLs which is the most basic thing of any mobile app with AWS private file system
 
-version: 0.1.2+4
-#author:
+version: 0.0.1
+author: "M Dawood"
 homepage: "https://github.com/mdavidkhan/aws_s3_plugin_flutter"
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.20.0"
 
 dependencies:
   flutter:
@@ -22,22 +23,28 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   # This section identifies this Flutter project as a plugin project.
-  # The androidPackage and pluginClass identifiers should not ordinarily
+  # The 'pluginClass' and Android 'package' identifiers should not ordinarily
   # be modified. They are used by the tooling to maintain consistency when
   # adding or updating assets for this project.
   plugin:
-    androidPackage: com.blasanka.s3flutter.aws_s3
-    pluginClass: AwsS3Plugin
+    platforms:
+      android:
+        package: org.deetechpk.aws_s3_plugin_flutter
+        pluginClass: AwsS3PluginFlutterPlugin
+      ios:
+        pluginClass: AwsS3PluginFlutterPlugin
+
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages
   #
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
+
   # To add custom fonts to your plugin package, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

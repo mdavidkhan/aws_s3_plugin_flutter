@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-class AwsS3 {
+class AwsS3PluginFlutter {
   final File file;
   final String fileNameWithExt;
   final String awsFolderPath;
@@ -14,7 +14,7 @@ class AwsS3 {
   final String AWSAccess;
   final String AWSSecret;
 
-  AwsS3({
+  AwsS3PluginFlutter({
     @required this.file,
     @required this.fileNameWithExt,
     @required this.awsFolderPath,
@@ -25,11 +25,11 @@ class AwsS3 {
     @required this.AWSSecret,
   });
 
-  static const MethodChannel _channel =
-      const MethodChannel('com.blasanka.s3Flutter/aws_s3');
-
   static const EventChannel _eventChannel =
-      const EventChannel('com.blasanka.s3Flutter/uploading_status');
+      const EventChannel('uploading_status');
+
+  static const MethodChannel _channel =
+      const MethodChannel('aws_s3_plugin_flutter');
 
   Future<String> get uploadFile async {
     Map<String, dynamic> args = <String, dynamic>{};
@@ -71,7 +71,6 @@ class AwsS3 {
   Stream get getUploadStatus => _eventChannel.receiveBroadcastStream();
 }
 
-/// Enumeration of region names
 enum Regions {
   GovCloud,
   US_GOV_EAST_1,
