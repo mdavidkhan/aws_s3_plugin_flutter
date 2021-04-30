@@ -1,0 +1,51 @@
+group 'com.blasanka.s3flutter.aws_s3'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.5'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 16
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+}
+
+dependencies {
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.6'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.16.6'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.16.6'
+    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.16.6'
+
+    // Sign in UI Library
+    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.6.10'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.16.6'
+//    implementation ('com.amazonaws:aws-java-sdk:1.11.404'){
+//        exclude group: 'com.amazonaws', module: 'aws-java-sdk-core'
+//    }
+
+}
