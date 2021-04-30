@@ -1,24 +1,26 @@
 # aws_s3
 
-This plugin developed to make it easy to upload any file(s) to AWS S3 without
+This plugin developed to make it easy to upload  file(s) to AWS S3  Private buckets without
 writing Android, and IOS code separately using method channel.
 
 DISCLAIMER: This is not an AWS officially released plugin but this plugin uses
 AWS official Android native and IOS native AWS plugins (So nothing to be worried).
-Check the package implementation on github: https://github.com/blasanka/aws_s3
+
 
 Contributors are highly welcome.
 
 To use this package, you have to create a instance of `AwsS3` with parameters like below code snippet:
 
 ```
-AwsS3 awsS3 = AwsS3(
+  AwsS3 awsS3 = AwsS3(
   awsFolderPath: "your aws folder path",
   file: "file is of type File",
   fileNameWithExt: "file name",
-  poolId: "your aws pool id",
   region: "your region using enum Regions",
+  AWSAccess: "your AWSAccessKey",
+  AWSSecret: "Your AWSSecretKey",
   bucketName: "your bucket name to upload");
+  
 ```
 
 `AwsS3` class, parameters:
@@ -27,18 +29,36 @@ AwsS3 awsS3 = AwsS3(
   final File file;
   final String fileNameWithExt;
   final String awsFolderPath;
-  final String poolId;
-  final Regions region;
   final String bucketName;
 
-  AwsS3({
-    @required this.file,
-    @required this.fileNameWithExt,
-    @required this.awsFolderPath,
-    @required this.poolId,
-    this.region = Regions.US_WEST_2,
-    @required this.bucketName,
-  });
+  AwsS3 awsS3 = AwsS3(
+  awsFolderPath: awsFolderPath,
+  file: file,
+  fileNameWithExt: fileNameWithExt,
+  region: Regions.EU_WEST_2,
+  AWSAccess: Constants.AWSAccessKey,
+  AWSSecret: Constants.AWSSecretKey,
+  bucketName: bucketName);
+```
+`AWSS3` generate presigned URL 
+
+```
+
+final String fileNameWithExt;
+final String awsFolderPath;
+final String bucketName;
+
+
+  AwsS3 awsS3 = AwsS3(
+    awsFolderPath: awsFolderPath,
+    fileNameWithExt: fileNameWithExt,
+    region: Regions.EU_WEST_2,
+    bucketName: bucketName,
+    AWSAccess: Constants.AWSAccessKey,
+    AWSSecret: Constants.AWSSecretKey,
+  );
+  String presigned = await awsS3.getPreSignedURLOfFile;
+  
 ```
 
 All the available regions from official Amazon AWS S3 android are supported in this Flutter plugin:
