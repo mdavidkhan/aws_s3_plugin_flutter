@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:aws_s3/aws_s3.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -45,6 +44,31 @@ class CreateMessageState extends State<CreateMessage> {
     readEnv();
   }
 
+  static Future<String> getPresignedURLFromUnsigned(String urlString) async {
+    if (!urlString.contains('.amazonaws.com')) {
+      if (!urlString.contains('https')) {
+        //if url is not https then convert it to https
+        urlString = urlString.replaceAll('http', 'https');
+      }
+      return urlString; //return the URL back if don't find any signs of AWS
+    }
+    AwsS3 awsS3 = AwsS3(
+      awsFolderPath: '',
+      fileNameWithExt: 'File Name.jpg',
+      region: Regions.EU_WEST_2,
+      bucketName: 'mediaFiles',
+      AWSAccess: "Constants.AWSAccessKey",
+      AWSSecret: "Constants.AWSSecretKey",
+    );
+    String presigned = await awsS3.getPreSignedURLOfFile;
+
+    if (presigned != null && presigned.length > 0) {
+      return presigned;
+    } else {
+      return urlString;
+    }
+  }
+
   void readEnv() async {
     final str = await rootBundle.loadString(".env");
     if (str.isNotEmpty) {
@@ -77,40 +101,6 @@ class CreateMessageState extends State<CreateMessage> {
           ],
         ),
       ),
-    );
-  }
-
-  _renderBottomMenuItem(icon, title, {FileType type}) {
-    var item = new Container(
-      height: 60.0,
-      child: Row(
-        children: <Widget>[
-          new Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: new Icon(icon,
-                  size: 40.0, color: Theme.of(context).primaryColorLight)),
-          new Center(
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 20.0),
-                  child: new Text(
-                    title,
-                    style: new TextStyle(
-                        fontSize: 22.0, fontStyle: FontStyle.normal),
-                  ))),
-        ],
-      ),
-    );
-    return new InkWell(
-      child: item,
-      onTap: () async {
-        Navigator.of(context).pop();
-        // if (type == FileType.VIDEO) {
-        //   selectedFile = await FilePicker.getFile(type: FileType.VIDEO);
-        // } else if (type == FileType.IMAGE) {
-        //   selectedFile = await FilePicker.getFile(type: FileType.IMAGE);
-        // }
-      },
     );
   }
 
