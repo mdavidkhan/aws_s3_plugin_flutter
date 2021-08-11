@@ -29,7 +29,7 @@ class AwsS3PluginFlutter {
       const EventChannel('uploading_status');
 
   static const MethodChannel _channel =
-      const MethodChannel('aws_s3_plugin_flutter');
+      const MethodChannel('org.deetechpk/aws_s3_plugin_flutter');
 
   Future<String> get uploadFile async {
     Map<String, dynamic> args = <String, dynamic>{};

@@ -48,8 +48,10 @@ public class AwsS3PluginFlutterPlugin implements FlutterPlugin, MethodCallHandle
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
   private static final String TAG = "awsS3Plugin";
-  private static final String CHANNEL = "aws_s3_plugin_flutter";
+  private static final String CHANNEL = "org.deetechpk/aws_s3_plugin_flutter";
   private static final String STREAM = "uploading_status";
+  static final String METHOD_CALL_UPLOAD = "uploadToS3";
+  static final String METHOD_CALL_PRESIGNED = "createPreSignedURL";
   private String AWSAccess;
   private String AWSSecret;
   private String filePath;
@@ -85,7 +87,7 @@ public class AwsS3PluginFlutterPlugin implements FlutterPlugin, MethodCallHandle
     this.mContext = applicationContext;
     methodChannel = new MethodChannel(messenger, CHANNEL);
     eventChannel = new EventChannel(messenger, STREAM);
-    eventChannel.setStreamHandler((io.flutter.plugin.common.EventChannel.StreamHandler) this);
+    eventChannel.setStreamHandler(this);
     methodChannel.setMethodCallHandler(this);
 
     Log.d(TAG, "whenAttachedToEngine");
@@ -104,8 +106,10 @@ public class AwsS3PluginFlutterPlugin implements FlutterPlugin, MethodCallHandle
   }
 
   @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    parentResult = result;
+  public void onMethodCall(MethodCall call, MethodChannel.Result rawResult) {
+
+    result = new MethodResultWrapper(rawResult);
+
     filePath = call.argument("filePath");
     Log.d(TAG, "onMethodCall : file path ==> : " + filePath);
     awsFolder = call.argument("awsFolder");
@@ -113,25 +117,68 @@ public class AwsS3PluginFlutterPlugin implements FlutterPlugin, MethodCallHandle
     bucketName = call.argument("bucketName");
     AWSAccess = call.argument("AWSAccess");
     AWSSecret = call.argument("AWSSecret");
-    if (call.method.equals("uploadToS3")) {
+    switch (call.method) {
+      case METHOD_CALL_UPLOAD:
+        try {
 
-      try {
-
-        clientConfiguration.setConnectionTimeout(250000);
-        clientConfiguration.setSocketTimeout(250000);
-        AmazonS3Client s3Client = new AmazonS3Client(new BasicAWSCredentials( AWSAccess,AWSSecret));
-        transferUtility1 = TransferUtility.builder().context(mContext).awsConfiguration(AWSMobileClient.getInstance().getConfiguration()).s3Client(s3Client).build();
-        sendImage();
-      } catch (Exception e) {
-        Log.e(TAG, "onMethodCall: exception: " + e.getMessage());
-      }
+          clientConfiguration.setConnectionTimeout(250000);
+          clientConfiguration.setSocketTimeout(250000);
+          AmazonS3Client s3Client = new AmazonS3Client(new BasicAWSCredentials( AWSAccess,AWSSecret));
+          transferUtility1 = TransferUtility.builder().context(mContext).awsConfiguration(AWSMobileClient.getInstance().getConfiguration()).s3Client(s3Client).build();
+          sendImage();
+        } catch (Exception e) {
+          Log.e(TAG, "onMethodCall: exception: " + e.getMessage());
+        }
+        break;
+      case METHOD_CALL_PRESIGNED:
+        getPreSinedURL(call,result);
+        break;
+      default:
+        result.notImplemented();
     }
-    else if (call.method.equals("createPreSignedURL")){
-      getPreSinedURL(call,result);
-    }else {
-      result.notImplemented();
+  }
+  private static class MethodResultWrapper implements MethodChannel.Result {
+    private MethodChannel.Result methodResult;
+    private Handler handler;
+
+    MethodResultWrapper(MethodChannel.Result result) {
+      methodResult = result;
+      handler = new Handler(Looper.getMainLooper());
     }
 
+    @Override
+    public void success(final Object result) {
+      handler.post(
+              new Runnable() {
+                @Override
+                public void run() {
+                  methodResult.success(result);
+                }
+              });
+    }
+
+    @Override
+    public void error(
+            final String errorCode, final String errorMessage, final Object errorDetails) {
+      handler.post(
+              new Runnable() {
+                @Override
+                public void run() {
+                  methodResult.error(errorCode, errorMessage, errorDetails);
+                }
+              });
+    }
+
+    @Override
+    public void notImplemented() {
+      handler.post(
+              new Runnable() {
+                @Override
+                public void run() {
+                  methodResult.notImplemented();
+                }
+              });
+    }
   }
 
   private void getPreSinedURL(@NonNull MethodCall call, @NonNull Result result){

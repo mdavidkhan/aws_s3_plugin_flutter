@@ -5,7 +5,7 @@ import AWSS3
 import Foundation
 
 enum ChannelName {
-    static let awsS3 = "aws_s3_plugin_flutter"
+    static let awsS3 = "org.deetechpk/aws_s3_plugin_flutter"
     static let uploadingSatus = "uploading_status"
 }
 
