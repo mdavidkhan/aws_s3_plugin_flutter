@@ -42,7 +42,7 @@ import io.flutter.plugin.common.PluginRegistry;
 
 
 /** AwsS3PluginFlutterPlugin */
-public class AwsS3PluginFlutterPlugin implements FlutterPlugin, MethodCallHandler {
+public class AwsS3PluginFlutterPlugin implements FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -106,10 +106,10 @@ public class AwsS3PluginFlutterPlugin implements FlutterPlugin, MethodCallHandle
   }
 
   @Override
-  public void onMethodCall(MethodCall call, MethodChannel.Result rawResult) {
+  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
 
-    result = new MethodResultWrapper(rawResult);
 
+    parentResult = result;
     filePath = call.argument("filePath");
     Log.d(TAG, "onMethodCall : file path ==> : " + filePath);
     awsFolder = call.argument("awsFolder");
@@ -137,50 +137,6 @@ public class AwsS3PluginFlutterPlugin implements FlutterPlugin, MethodCallHandle
         result.notImplemented();
     }
   }
-  private static class MethodResultWrapper implements MethodChannel.Result {
-    private MethodChannel.Result methodResult;
-    private Handler handler;
-
-    MethodResultWrapper(MethodChannel.Result result) {
-      methodResult = result;
-      handler = new Handler(Looper.getMainLooper());
-    }
-
-    @Override
-    public void success(final Object result) {
-      handler.post(
-              new Runnable() {
-                @Override
-                public void run() {
-                  methodResult.success(result);
-                }
-              });
-    }
-
-    @Override
-    public void error(
-            final String errorCode, final String errorMessage, final Object errorDetails) {
-      handler.post(
-              new Runnable() {
-                @Override
-                public void run() {
-                  methodResult.error(errorCode, errorMessage, errorDetails);
-                }
-              });
-    }
-
-    @Override
-    public void notImplemented() {
-      handler.post(
-              new Runnable() {
-                @Override
-                public void run() {
-                  methodResult.notImplemented();
-                }
-              });
-    }
-  }
-
   private void getPreSinedURL(@NonNull MethodCall call, @NonNull Result result){
     String reg = call.argument("region");
     assert reg != null;
