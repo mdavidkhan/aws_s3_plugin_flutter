@@ -1,6 +1,6 @@
 #import "AwsS3PluginFlutterPlugin.h"
-#if __has_include(<aws_s3/aws_s3-Swift.h>)
-#import <aws_s3_plugin_flutter/aws_s3-Swift.h>
+#if __has_include(<aws_s3_plugin_flutter/aws_s3_plugin_flutter-Swift.h>)
+#import <aws_s3_plugin_flutter/aws_s3_plugin_flutter-Swift.h>
 #else
 // Support project import fallback if the generated compatibility header
 // is not copied when this plugin is created as a library.
