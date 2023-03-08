@@ -5,35 +5,34 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class AwsS3PluginFlutter {
-  final File file;
+  final File? file;
   final String fileNameWithExt;
   final String awsFolderPath;
-  final String poolId;
+  final String? poolId;
   final Regions region;
   final String bucketName;
   final String AWSAccess;
   final String AWSSecret;
 
   AwsS3PluginFlutter({
-    @required this.file,
-    @required this.fileNameWithExt,
-    @required this.awsFolderPath,
+    this.file,
+    required this.fileNameWithExt,
+    required this.awsFolderPath,
     this.poolId,
     this.region = Regions.US_WEST_2,
-    @required this.bucketName,
-    @required this.AWSAccess,
-    @required this.AWSSecret,
+    required this.bucketName,
+    required this.AWSAccess,
+    required this.AWSSecret,
   });
 
-  static const EventChannel _eventChannel =
-      const EventChannel('uploading_status');
+  static const EventChannel _eventChannel = EventChannel('uploading_status');
 
   static const MethodChannel _channel =
-      const MethodChannel('org.deetechpk/aws_s3_plugin_flutter');
+      MethodChannel('org.deetechpk/aws_s3_plugin_flutter');
 
   Future<String> get uploadFile async {
     Map<String, dynamic> args = <String, dynamic>{};
-    args.putIfAbsent("filePath", () => file.path);
+    args.putIfAbsent("filePath", () => file?.path);
     args.putIfAbsent("awsFolder", () => awsFolderPath);
     args.putIfAbsent("fileNameWithExt", () => fileNameWithExt);
     args.putIfAbsent("region", () => region.toString());
@@ -41,9 +40,10 @@ class AwsS3PluginFlutter {
     args.putIfAbsent("AWSSecret", () => AWSSecret);
     args.putIfAbsent("AWSAccess", () => AWSAccess);
 
-    debugPrint("AwsS3Plugin: file path is: ${file.path}");
+    debugPrint("AwsS3Plugin: file path is: ${file?.path}");
 
-    final String result = await _channel.invokeMethod('uploadToS3', args);
+    final String result =
+        (await _channel.invokeMethod<String>('uploadToS3', args)) as String;
 
     return result;
   }
@@ -59,7 +59,7 @@ class AwsS3PluginFlutter {
       args.putIfAbsent("AWSAccess", () => AWSAccess);
 
       final String result =
-          await _channel.invokeMethod('createPreSignedURL', args);
+          (await _channel.invokeMethod<String>('createPreSignedURL', args) as String);
 
       return result;
     } catch (e) {
@@ -68,7 +68,7 @@ class AwsS3PluginFlutter {
     }
   }
 
-  Stream get getUploadStatus => _eventChannel.receiveBroadcastStream();
+  Stream<dynamic> get getUploadStatus => _eventChannel.receiveBroadcastStream();
 }
 
 enum Regions {
