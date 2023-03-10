@@ -1,12 +1,12 @@
 name: aws_s3_plugin_flutter
 description: This package for uploading private file(s) to AWS S3 with upload percentage. also it is able to access the private files through presigned URLs which is the most basic thing of any mobile app with AWS private file system
 
-version: 0.0.5
+version: 0.0.6
 #author: "M Dawood"
 homepage: "https://github.com/mdavidkhan/aws_s3_plugin_flutter"
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.20.0"
 
 dependencies:
